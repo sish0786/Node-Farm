@@ -1,7 +1,7 @@
 const fs = require('fs');
 const http = require('http');
 const url = require('url');
-
+const replaceTemplate = require('./modules/replaceTemplate.js');
 
 // //Blocking Synchronous Way
 // const textIn = fs.readFileSync("./txt/input.txt",'utf-8');
@@ -30,22 +30,6 @@ const tempCard = fs.readFileSync(`${__dirname}/templates/template-card.html`,'ut
 
 const data = fs.readFileSync(`${__dirname}/dev-data/data.json`,'utf-8');
 const dataObj = JSON.parse(data);
-
-const replaceTemplate = (temp,product)=>{
-    let output = temp.replace(/{%PRODUCTNAME%}/g,product.productName);
-    output = output.replace(/{%IMAGE%}/g,product.image);
-    output = output.replace(/{%FROM%}/g,product.from);
-    output = output.replace(/{%PRICE%}/g,product.price);
-    output = output.replace(/{%DESCRIPTION%}/g,product.description);
-    output = output.replace(/{%QUNATITY%}/g,product.quantity);
-    output = output.replace(/{%NUTRIENTS%}/g,product.nutrients);
-    output = output.replace(/{%ID%}/g,product.id);
-    if(!product.organic){
-        output = output.replace(/{%NOT_ORGANIC%}/g,'not-organic');
-
-    }
-    return output;
-}
 
 const server = http.createServer((req,resp)=>{
     const {query, pathname} = url.parse(req.url,true);
